@@ -1,8 +1,13 @@
 from pydantic import BaseModel, Field
 
+
+
+class RequestUser(BaseModel):
+    email:str
+    password:str
+
 class UserBase(BaseModel):
-    username: str = Field(..., example="john_doe")
-    email: str = Field(..., example="john@example.com")
+    email: str = Field(..., example="john@example.com",unique=True, index=True)
 
 class UserCreate(UserBase):
     password: str = Field(..., example="strongpassword123")
