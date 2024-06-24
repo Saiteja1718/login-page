@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-compatible" content="ie=edge">
+    <title>Navigation</title>
+    <style>
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        body {
+            background-image: url('online-appointment-scheduling-screenshot-1.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .navbar {
+            background-color: #512da8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            border-bottom-right-radius: 700px 600px;
+            padding-bottom: 50px;
+            position: relative; /* Ensure z-index works properly */
+            z-index: 2; /* Ensure navbar is above background */
+        }
+        .navbar ul {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .navbar li {
+            margin: 13px 20px;
+        }
+        .navbar li a {
+            padding: 3px 3px;
+            text-decoration: none;
+            color: white;
+        }
+        .navbar li a:hover {
+            color: yellowgreen;
+        }
+        .search {
+            display: flex;
+            align-items: center;
+            margin-right: 100px; /* Adjust this value to move the search bar to the left */
+        }
+        .navbar input {
+            border: 2px solid whitesmoke;
+            border-radius: 14px;
+            padding: 6px 20px;
+            width: 200px;
+            font-size: 16px;
+        }
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: -100px; /* Adjust the margin to overlap the cards with the background image */
+            position: relative; /* Ensure z-index works properly */
+            z-index: 3; /* Ensure cards are above background */
+        }
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: 30%; /* Adjust the width of the cards as needed */
+            background: white; /* Background color for the card */
+            position: relative; /* Allow absolute positioning within the card */
+        }
+        .card:hover {
+            box-shadow: 0 8px 16px 0 #512da8;
+        }
+        .card img {
+            width: 100%;
+            height: 300px;
+        }
+        .container {
+            padding: 8px 16px; /* Adjust the padding to decrease space under the image */
+        }
+        .container h4 {
+            margin: 10px 0 0 0; /* Adjust the margin to decrease space under the heading */
+        }
+        .bg {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh; /* Full height of the viewport */
+            width: 100vw; /* Full width of the viewport */
+            z-index: 2; /* Ensure text is above background */
+            padding-left: 20px; /* Adjust padding to align text to the left */
+        }
+        .bg h1 {
+            color:#512da8;
+            font-size: 60px; /* Increase the font size */
+            text-align: left; /* Align the text to the left */
+            overflow: hidden; /* Ensures the text does not overflow */
+            white-space: nowrap; /* Prevents the text from wrapping */
+            border-right: 0px solid transparent; /* Hide the blinking cursor */
+            width: 0; /* Initial width for the typing effect */
+            animation: typing 5s steps(40, end) infinite; /* Typing animation */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <ul>
+                <li><a href="nav8.html"><h2>Home</h2></a></li>
+                <li><a href="about.html"><h2>About</h2></a></li>
+                <li><a href="app.html"><h2>Appointment</h2></a></li>
+                <li><a href="contact.html"><h2>Contact Us</h2></a></li>
+            </ul>
+            <div class="search">
+                <input type="text" name="search" id="search" placeholder="Search">
+            </div>
+        </nav>
+    </header>
+    <section class="bg">
+        <h1>Welcome to HABS where medication meets innovation.</h1>
+    </section>
+    <div class="card-container">
+        <div class="card" style="margin-top: -50px;">
+            <img src="online-appointment-management-software.png" alt="Avatar">
+        </div>
+        <div class="card" style="margin-top: -50px;">
+            <img src="book-your-doctor-online-patient-600nw-1776815561.webp" alt="Avatar">
+        </div>
+        <div class="card" style="margin-top: -50px;">
+            <img src="Online-appointment-Software-1024x1024 (1).jpg" alt="Avatar">
+        </div>
+    </div>
+</body>
+</html>

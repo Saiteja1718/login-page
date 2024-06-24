@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment - Hospital Appointment Booking System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        body {
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+        }
+        .container h1, .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container h1 {
+            font-size: 36px;
+            color: #512da8;
+        }
+        .container h2 {
+            font-size: 28px;
+            color: #3e1c96;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group select,
+        .form-group input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+        .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: url('data:image/svg+xml;utf8,<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="%23333" d="M10 12.586l3.707-3.707a1 1 0 0 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 1 1 1.414-1.414L10 12.586z"/></svg>') no-repeat right 10px center/15px 15px;
+            padding-right: 30px;
+        }
+        .form-group input[type="submit"] {
+            background-color: #512da8;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #5c6bc0;
+        }
+        .availability {
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        .time-slot {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .time-slot input[type="radio"] {
+            display: none;
+        }
+        .time-slot label {
+            background-color: #eee;
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .time-slot input[type="radio"]:checked + label {
+            background-color: #512da8;
+            color: #fff;
+        }
+        .time-slot input[type="radio"]:checked + label:hover {
+            background-color: #5c6bc0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Book an Appointment</h1>
+        <form id="appointmentForm" action="#" method="post">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="department">Select Department</label>
+                <select id="department" name="department" required>
+                    <option value="">Select Department</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Orthopedics">Orthopedics</option>
+                    <option value="Ophthalmology">Ophthalmology</option>
+                    <option value="Dermatology">Dermatology</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="doctor">Select Doctor</label>
+                <select id="doctor" name="doctor" disabled required>
+                    <option value="">Select Department first</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Preferred Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Check Availability">
+            </div>
+            <div id="availability" class="availability"></div>
+        </form>
+    </div>
+
+    <script>
+        // Sample data - doctors and their availability
+        const doctorsByDepartment = {
+            Cardiology: ["Dr. John Doe", "Dr. Jane Smith", "Dr. Michael Brown"],
+            Neurology: ["Dr. Emily Davis", "Dr. David Wilson", "Dr. Sarah Lee"],
+            Orthopedics: ["Dr. Mark Johnson", "Dr. Rachel White", "Dr. Christopher Harris"],
+            Ophthalmology: ["Dr. Jennifer Taylor", "Dr. Andrew Martinez", "Dr. Laura Clark"],
+            Dermatology: ["Dr. Matthew Young", "Dr. Amanda Moore", "Dr. Kevin Allen"]
+        };
+
+        const availabilityByDoctor = {
+            "Dr. John Doe": ["10:00 AM", "11:00 AM", "02:00 PM"],
+            "Dr. Jane Smith": ["09:30 AM", "01:00 PM", "03:30 PM"],
+            "Dr. Michael Brown": ["11:30 AM", "12:30 PM", "04:00 PM"],
+            "Dr. Emily Davis": ["09:00 AM", "10:30 AM", "03:00 PM"],
+            "Dr. David Wilson": ["11:00 AM", "01:30 PM", "04:30 PM"],
+            "Dr. Sarah Lee": ["09:30 AM", "11:30 AM", "02:30 PM"],
+            "Dr. Mark Johnson": ["10:00 AM", "12:00 PM", "03:00 PM"],
+            "Dr. Rachel White": ["09:00 AM", "11:00 AM", "01:00 PM"],
+            "Dr. Christopher Harris": ["10:30 AM", "12:30 PM", "02:30 PM"],
+            "Dr. Jennifer Taylor": ["09:30 AM", "10:30 AM", "04:00 PM"],
+            "Dr. Andrew Martinez": ["11:00 AM", "01:00 PM", "03:30 PM"],
+            "Dr. Laura Clark": ["10:00 AM", "12:00 PM", "02:00 PM"],
+            "Dr. Matthew Young": ["09:00 AM", "11:00 AM", "01:30 PM"],
+            "Dr. Amanda Moore": ["10:30 AM", "12:30 PM", "03:00 PM"],
+            "Dr. Kevin Allen": ["09:30 AM", "11:30 AM", "02:30 PM"]
+        };
+
+        // Function to populate doctors based on selected department
+        document.getElementById('department').addEventListener('change', function() {
+            const department = this.value;
+            const doctorSelect = document.getElementById('doctor');
+            doctorSelect.innerHTML = '<option value="">Select Doctor</option>';
+
+            if (department) {
+                const doctors = doctorsByDepartment[department];
+                doctors.forEach(function(doctor) {
+                    const option = document.createElement('option');
+                    option.textContent = doctor;
+                    option.value = doctor;
+                    doctorSelect.appendChild(option);
+                });
+
+                doctorSelect.disabled = false;
+            } else {
+                doctorSelect.disabled = true;
+            }
+        });
+
+        // Function to handle form submission (Check Availability)
+        document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+const doctor = document.getElementById('doctor').value;
+const selectedDate = document.getElementById('date').value;
+
+if (!doctor || !selectedDate) {
+    alert('Please select both doctor and date.');
+    return;
+}
+
+const availableTimes = availabilityByDoctor[doctor];
+
+const availabilityDiv = document.getElementById('availability');
+availabilityDiv.innerHTML = '<h2>Available Time Slots</h2>';
+
+availableTimes.forEach(function(time) {
+    const timeSlot = document.createElement('div');
+    timeSlot.classList.add('time-slot');
+
+    const radioInput = document.createElement('input');
+    radioInput.setAttribute('type', 'radio');
+    radioInput.setAttribute('name', 'time-slot');
+    radioInput.setAttribute('id', time);
+    radioInput.setAttribute('value', time);
+
+    const label = document.createElement('label');
+    label.setAttribute('for', time);
+    label.textContent = time;
+
+    timeSlot.appendChild(radioInput);
+    timeSlot.appendChild(label);
+
+    availabilityDiv.appendChild(timeSlot);
+});
+
+const bookAppointmentBtn = document.createElement('button');
+bookAppointmentBtn.textContent = 'Book Appointment';
+bookAppointmentBtn.classList.add('form-group');
+bookAppointmentBtn.addEventListener('click', function() {
+    const selectedTime = document.querySelector('input[name="time-slot"]:checked');
+
+    if (selectedTime) {
+        const confirmation = confirm(`Confirm booking for ${doctor} on ${selectedDate} at ${selectedTime.value}?`);
+        if (confirmation) {
+            alert('Appointment booked successfully!');
+            // You can add further actions here, like submitting the form or updating a database
+        }
+    } else {
+        alert('Please select a time slot.');
+    }
+});
+
+availabilityDiv.appendChild(document.createElement('br'));
+availabilityDiv.appendChild(bookAppointmentBtn);
+});
+</script>
+</body>
+</html>

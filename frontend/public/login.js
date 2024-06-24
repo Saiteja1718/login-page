@@ -3,7 +3,6 @@ const isAuthenticated = localStorage.getItem('authenticated') === 'true';
 
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
-
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
@@ -21,7 +20,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     })
     .then(response => {
         if (response.ok) {
-            alert("User is authenticated");
             return response.json(); 
         } else if (response.status === 401) {
             alert('Login failed. Unauthenticated.');
@@ -34,7 +32,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     .then(data => {
         if (data.authenticated) {
             localStorage.setItem('authenticated', 'true'); 
-            //window.location.href = '/'; 
+            window.location.href = './nav8.html'; 
            
         }
     })
